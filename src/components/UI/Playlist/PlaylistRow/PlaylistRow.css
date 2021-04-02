@@ -1,0 +1,40 @@
+.playlistRowContainer {
+    width: 80%;
+    background: #212121;
+    display: block;
+    padding: 20px;
+    margin: 10px 0px 40px 0px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 0px 20px 0px rgb(14 10 21 / 50%);
+}
+.playlistRowAlbumImage {
+    width: 100px;
+    height: 100px;
+    background-color: black;
+}
+.playlistRowDetails {
+    flex: 1 1 90%;
+    display: flex;
+    flex-direction: column;
+}
+.playlistRowDetails div {
+    margin-left: 20px;
+    display: block;
+    color: #B3B3B3;
+}
+.playlistRowSongTitle {
+    font-size: 2rem;
+    font-family: 'Futura';
+}
+.playlistRowSongTitle a {
+    color: white;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+}
+@media screen and (max-width: 1366px) {
+    .playlistRowContainer {
+        margin-bottom: 20px;
+    }
+}

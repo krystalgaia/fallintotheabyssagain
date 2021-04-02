@@ -1,0 +1,87 @@
+.controlPanelContainer {
+    flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    overflow-y: auto;
+    padding-bottom: 25px;
+}
+.controlPanelHeaderEmoji {
+    text-shadow: 0px 0px 20px rgb(255 255 255 / 80%);
+}
+.controlPanelControls {
+    background: rgb(8 7 7 / 80%);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: -60px 20px 20px 20px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 20px 0px rgb(14 10 21 / 50%);
+    width: 55%;
+}
+.controlPanelHeader {
+    font-size: 4.0rem;
+    font-family: 'Futura-Bold';
+    color: #1DB954;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+    z-index: 1;
+    margin-top: 65px;
+}
+.controlPanelStickyHeader {
+    display: none;
+    position: fixed;
+    color: #1DB954;
+    text-transform: uppercase;
+    padding: 5px;
+    text-align: center;
+    font-size: 1.5rem;
+    background-color: rgb(8, 7, 7);
+    width: 100%;
+}
+.controlPanelControlItem {
+    margin-top: 25px;
+}
+.controlPanelSubmitButton {
+    display: block;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+}
+.abyssCredits {
+    color: white;
+    text-align: center;
+}
+
+@media screen and (max-width: 1366px) {
+    .controlPanelHeader {
+        font-size: 2.5rem;
+        padding-top: 0px;
+        margin-top: 40px;
+    }
+    .controlPanelContainer {
+        flex: 1 1 50%;
+    }
+    .controlPanelControls {
+        margin-top: -40px;
+    }
+    .controlPanelSubmitButton {
+        margin-top: 0px;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .controlPanelHeader {
+        font-size: 2.0rem;
+    }
+}
+@media screen and (max-width: 500px) and (orientation: portrait),
+screen and (max-height: 500px) and (orientation: landscape) {
+    .controlPanelSubmitButton {
+        font-size: 15px;
+        margin-top: 10px;
+    }
+}

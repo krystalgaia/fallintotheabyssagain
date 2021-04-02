@@ -1,0 +1,83 @@
+.imageFormContainer {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.imageFormFileUpload {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    flex-flow: column;
+    justify-content: center;
+}
+.imageFormUploadButton {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+    background-color: #1DB954;
+    color: #fff;
+    width: 150px;
+    height: 30px;
+    font-size: 1.0rem;
+    line-height: 30px;
+    float: left;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    padding: 3px 20px 3px 20px;
+    margin-top: 15px;
+}
+.imageFormFileUpload input[type="file"] {
+    display: none;
+}
+.imageFormImgPreview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
+}
+.abyssSaturnEmoji {
+    position: relative;
+    font-size: 100px;
+    vertical-align: middle;
+    text-align: center;
+}
+.imageFormImgPreview img {
+    display: none;
+    max-width: 250px;
+    max-height: 250px;
+    margin-top: 20px;
+    border: none;
+}
+
+@media screen and (max-width: 1366px) {
+    .imageFormImgPreview {
+        width: 150px;
+        height: 125px;
+    }
+    .imageFormImgPreview img {
+        max-width: 150px;
+        max-height: 125px;
+    }
+}
+@media screen and (max-width: 500px) and (orientation: portrait),
+screen and (max-height: 500px) and (orientation: landscape) {
+    .imageFormImgPreview {
+        width: 150px;
+        height: 150px;
+    }
+    .imageFormImgPreview img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+    .imageFormFileUpload input[type="text"] {
+        font-size: 14px;
+    }
+    .imageFormUploadButton {
+        width: 100px;
+        font-size: 12px;
+    }
+}

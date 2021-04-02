@@ -1,0 +1,39 @@
+/* Custom Fonts */
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/FuturaPTBook.otf);
+}
+
+@font-face {
+  font-family: 'Futura-Bold';
+  src: url(./assets/fonts/FuturaPTHeavy.otf);
+}
+
+body {
+  margin: 0;
+  font-family: 'Futura';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+button {
+  border: none;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}

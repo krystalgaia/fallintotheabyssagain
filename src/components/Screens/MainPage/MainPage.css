@@ -1,0 +1,17 @@
+.mainPageContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background: #121212;
+    /* background-image: radial-gradient(#313131, #313131, #121212); */
+}
+
+@media screen and (max-width: 500px) and (orientation: portrait),
+screen and (max-height: 500px) and (orientation: landscape) {
+    .mainPageContainer {
+        display: block;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+}
