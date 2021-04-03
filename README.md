@@ -2,7 +2,7 @@
 
 This is version two of my favorite project, [Abyss](https://github.com/krystalgaia/fallintotheabyss).
 
-![Abyss Landing Page](/demo/LandingPage.gif)
+![Landing Page](/demo/LandingPage.gif)
 
 ## What changed?
 - Replaced vanilla JS with React.js
