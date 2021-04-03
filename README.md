@@ -14,3 +14,6 @@ This is version two of my favorite project, [Abyss](https://github.com/krystalga
 - Removed Flask
 
 ![Abyss Landing Page](/demo/MainPage.PNG)
+
+### Support & Feedback
+Please send me an e-mail at [kierstenramos@outlook.com](mailto:kierstenramos@outlook.com) 💚
