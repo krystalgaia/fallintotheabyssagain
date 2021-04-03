@@ -1,4 +1,4 @@
-.btnPrimary {
+.btnPrimary, .btnDisabled, .btnNoData {
     display: block;
     margin-top: 30px;
     padding: 10px 25px 10px 25px;
@@ -29,6 +29,22 @@
 }
 .btnHidden {
     display: none;
+}
+
+.btnDisabled {
+    background: linear-gradient(to right, #808080 4%, #535353 25%, #808080 36%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.85s infinite;
+}
+
+.btnNoData {
+    color: rgb(226, 185, 0);
+    background: #212121;
+}
+
+@keyframes shimmer {
+    0% { background-position: -250px 0; }
+    100% { background-position: 250px 0; }
 }
 
 @media screen and (max-width: 1366px) {

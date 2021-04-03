@@ -2,6 +2,7 @@ import React from 'react';
 
 import Wrapper from '../../../hoc/Wrapper/Wrapper';
 import PlaylistRow from '../Playlist/PlaylistRow/PlaylistRow';
+import PlaylistRowSkeleton from '../Playlist/PlaylistRowSkeleton/PlaylistRowSkeleton';
 
 import styles from './Playlist.css';
 
@@ -9,11 +10,9 @@ const Playlist = (props) => {
     const pages = {
         loadingScreen: <Wrapper>
                         <div id="abyss-loading-indicator" className={styles.playlistContainer}>
-                            <div id="abyss-playlist-empty-state" className={styles.playlistEmptyState}>
-                                <span className={styles.abyssJumpingIndicator1}>🎵</span>
-                                <span className={styles.abyssJumpingIndicator2}>🎵</span>
-                                <span className={styles.abyssJumpingIndicator3}>🎵</span>
-                            </div>
+                                <PlaylistRowSkeleton key="1" />
+                                <PlaylistRowSkeleton key="2" />
+                                <PlaylistRowSkeleton key="3" />
                         </div>
                     </Wrapper>,
         playlist: <Wrapper>
@@ -31,16 +30,23 @@ const Playlist = (props) => {
                         ))}
                     </div>
                 </Wrapper>,
-        emptyState: <Wrapper>
+        initialEmptyState: <Wrapper>
                         <div id="abyss-playlist-main-empty-state" className={styles.playlistContainer}>
                             <div id="abyss-playlist-empty-state" className={styles.playlistEmptyState}>
                                 Your playlist will be shown here.<br />Start by uploading an image.
                             </div>
                         </div>
+                    </Wrapper>,
+        emptyState: <Wrapper>
+                        <div id="abyss-playlist-main-empty-state" className={styles.playlistContainer}>
+                            <div id="abyss-playlist-empty-state" className={styles.playlistEmptyState}>
+                                Sorry, we cannot create a playlist for you right now 😖 
+                            </div>
+                        </div>
                     </Wrapper>
     }
 
-    return (props.loading ? pages.loadingScreen : props.tracklist ? pages.playlist : pages.emptyState);
+    return (props.loading ? pages.loadingScreen : props.noData ? pages.emptyState : props.tracklist ? pages.playlist : pages.initialEmptyState);
 }
 
 export default Playlist;

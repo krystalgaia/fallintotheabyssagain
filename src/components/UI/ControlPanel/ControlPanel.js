@@ -57,15 +57,20 @@ const ControlPanel = (props) => {
                         <ImageForm textDisplay={filename}/>
                     </div>
                     <div className={styles.controlPanelSubmitButton}>
-                        <Button buttonType="btnPrimary" onClicked={createPlaylist}>Create Playlist</Button>
+                        {!props.noData &&
+                            <Button loading={props.loading} onClicked={createPlaylist}>Create Playlist</Button>
+                        }
                         {props.showSaveButton &&
                             <Button buttonType="btnPrimary" onClicked={savePlaylist}>Save Playlist</Button>
+                        }
+                        {props.noData &&
+                            <Button buttonType="btnDisabled" noData={props.noData}>No songs found 😥</Button>
                         }
                     </div>
                 </div>
                 <div className={styles.abyssCredits}>
-                    Designed by Kiersten Ramos<br />
-                    Powered by React, Spotify, & ColorThief
+                    Designed & Built by Kiersten Ramos<br />
+                    Powered by React.js, Spotify, & Color Thief
                 </div>
             </div>
         </Wrapper>

@@ -1,0 +1,60 @@
+.playlistRowContainer {
+    width: 80%;
+    background: #212121;
+    display: block;
+    padding: 20px;
+    margin: 10px 0px 40px 0px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 0px 20px 0px rgb(14 10 21 / 50%);
+    /* animation: fullView 0.5s forwards linear; */
+}
+.playlistRowAlbumImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #808080 4%, #535353 25%, #808080 36%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.85s infinite;
+}
+.playlistRowDetails {
+    flex: 1 1 90%;
+    display: flex;
+    flex-direction: column;
+}
+.playlistRowDetails div {
+    margin-left: 20px;
+    display: block;
+}
+.playlistRowSongTitle {
+    display: block;
+    width: 80%;
+    height: 1.5rem;
+    border-radius: 15px;
+    background: linear-gradient(to right, #808080 4%, #535353 25%, #808080 36%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.85s infinite;
+}
+.playlistRowArtist,
+.playlistRowAlbum {
+    display: block;
+    width: 40%;
+    height: 1rem;
+    border-radius: 15px;
+    margin-top: 20px;
+    background: linear-gradient(to right, #808080 4%, #535353 25%, #808080 36%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.85s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -500px 0; }
+    100% { background-position: 500px 0; }
+}
+
+@media screen and (max-width: 1366px) {
+    .playlistRowContainer {
+        margin-bottom: 20px;
+    }
+}

@@ -2,10 +2,8 @@ import React from 'react';
 import styles from './Button.css';
 
 const button = (props) => (
-    <button
-        className={styles[props.buttonType]}
-        onClick={props.onClicked}>
-            {props.children}
+    <button className={props.loading ? styles.btnDisabled : props.noData ? styles.btnNoData : styles.btnPrimary} onClick={props.onClicked} disabled={props.loading || props.noData}>
+        {props.loading ? "Loading..." : props.children}
     </button>
 );
 

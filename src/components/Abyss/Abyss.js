@@ -4,7 +4,6 @@ import $ from "jquery";
 import Wrapper from '../../hoc/Wrapper/Wrapper';
 import LandingPage from '../Screens/LandingPage/LandingPage';
 
-import { authEndpoint, clientId, redirectUri, scopes } from '../../helpers/secrets.js';
 import hash from '../../helpers/hash.js';
 import AUDIO_FEATURES from '../../helpers/audioColorMap.js';
 import "../../App.css";
@@ -48,8 +47,11 @@ class Abyss extends Component {
 
     loginHandler = () => {
         let hyperlink = document.createElement("a");
-        let linkSrc = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
-        // debugger;
+        let linkSrc = process.env.REACT_APP_ABYSS_AUTHENDPOINT +
+                        "?client_id=" + process.env.REACT_APP_ABYSS_CLIENT_ID +
+                        "&redirect_uri=" + process.env.REACT_APP_ABYSS_REDIRECT_URI +
+                        "&scope=" + process.env.REACT_APP_ABYSS_USER_SCOPES +
+                        "&response_type=" + process.env.REACT_APP_ABYSS_RESPONSE_TYPE;
 
         hyperlink.setAttribute("href", linkSrc);
         hyperlink.click();
@@ -58,9 +60,9 @@ class Abyss extends Component {
     getTopGenres = callback => {
         if (this.state.token) {
             this.ajaxHelper({
-                url: `https://api.spotify.com/v1/me/top/artists?limit=5`,
+                url: `${process.env.REACT_APP_ABYSS_TOP_GENRES_ENDPOINT}?limit=${process.env.REACT_APP_ABYSS_GENRE_LIMIT}`,
                 onSuccess: response => {
-                    if (!response) { this.setState({ noTopGenres: true }); }
+                    if (!response) { this.setState({ loading: false, noTopGenres: true }); return; }
 
                     let topGenres = "";
                     for (let i = 0; i < response.items.length; i++) {
@@ -68,10 +70,20 @@ class Abyss extends Component {
                         topGenres += encodeURIComponent(item.genres[0]) + ",";
                     }
 
-                    this.setState({ topGenres: topGenres });
-                    callback();
+                    if (topGenres === "") {
+                        this.setState({ loading: false, noTopGenres: true });
+                    } else {
+                        this.setState({ topGenres: topGenres });
+                        callback();
+                    }
                 },
-                onError: error => { if (error.status === "401") { this.setState({ token: null }); } }
+                onError: error => {
+                    if (error.status === "401") {
+                        this.setState({ loading: false, token: null });
+                    } else {
+                        this.setState({ loading: false, noTopGenres: true });
+                    }
+                }
             });
         }
     }
@@ -82,9 +94,13 @@ class Abyss extends Component {
             const retrieveTracks = () => {
                 let audioFeatures = AUDIO_FEATURES[colorKeyword];
                 this.ajaxHelper({
-                    url: `https://api.spotify.com/v1/recommendations?seed_genres=${this.state.topGenres}&max_popularity=40&limit=10&${audioFeatures}`,
+                    url: process.env.REACT_APP_ABYSS_TRACKLIST_ENDPOINT +
+                            "?seed_genres=" +this.state.topGenres +
+                            "&max_popularity=" + process.env.REACT_APP_ABYSS_MAX_POPULARITY +
+                            "&limit=" + process.env.REACT_APP_ABYSS_TRACKLIST_LIMIT +
+                            "&" + audioFeatures,
                     onSuccess: response => {
-                        if (!response) { this.setState({ noRecommendations: true }); }
+                        if (!response) { this.setState({ loading: false, noRecommendations: true }); return; }
                         let tracks = response.tracks;
                         let parsedTracks = [];
 
@@ -99,10 +115,20 @@ class Abyss extends Component {
                                 externalURL: track.external_urls.spotify
                             });
                         }
-                        
-                        this.setState({ tracklist: parsedTracks, loading: false });
+
+                        if (parsedTracks.length === 0) {
+                            this.setState({ loading: false, noRecommendations: true });
+                        } else {
+                            this.setState({ tracklist: parsedTracks, loading: false });
+                        }
                     },
-                    onError: error => { if (error.status === "401") { this.setState({ token: null }); } }
+                    onError: error => {
+                        if (error.status === "401") {
+                            this.setState({ loading: false, token: null });
+                        } else {
+                            this.setState({ loading: false, noRecommendations: true });
+                        }
+                    }
                 });
             }
             this.getTopGenres(retrieveTracks);
@@ -115,6 +141,7 @@ class Abyss extends Component {
                 <LandingPage
                     loading={this.state.loading}
                     hasToken={this.state.token}
+                    noData={this.state.noRecommendations || this.state.noTopGenres}
                     tracklist={this.state.tracklist}
                     onLogin={this.loginHandler}
                     onCreatePlaylist={this.createTrackList}

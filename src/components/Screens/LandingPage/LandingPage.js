@@ -8,7 +8,7 @@ import styles from '../LandingPage/LandingPage.css';
 
 const LandingPage = (props) => {
     const pages = {
-        main: <MainPage loading={props.loading} tracklist={props.tracklist} onCreatePlaylist={props.onCreatePlaylist} />,
+        main: <MainPage noData={props.noData} loading={props.loading} tracklist={props.tracklist} onCreatePlaylist={props.onCreatePlaylist} />,
         login: <Wrapper>
                 <div className={styles.landingPageContainer}>
                     <div className={styles.landingPageEmoji}><span role="img" aria-label="crescent-moon">🌙</span></div>

@@ -15,42 +15,6 @@
     text-align: center;
 }
 
-.abyssJumpingIndicator1 {
-    position: relative;
-    animation: jumping1 1s linear infinite;
-}
-.abyssJumpingIndicator2 {
-    position: relative;
-    animation: jumping2 1s linear infinite;
-}
-.abyssJumpingIndicator3 {
-    position: relative;
-    animation: jumping3 1s linear infinite;
-}
-
-/* Musical Notes */
-@keyframes jumping1 {
-    0% { top: 0px; }
-    25% { top: 15px; }
-    50% { top: 30px; }
-    75% { top: 15px; }
-    100% { top: 0px; }
-}
-@keyframes jumping2 {
-    0% { top: 15px; }
-    25% { top: 0px; }
-    50% { top: 15px; }
-    75% { top: 30px; }
-    100% { top: 15px; }
-}
-@keyframes jumping3 {
-    0% { top: 30px; }
-    25% { top: 15px; }
-    50% { top: 0px; }
-    75% { top: 15px; }
-    100% { top: 30px; }
-}
-
 @media screen and (max-width: 1366px) {
     .playlistContainer {
         flex: 1 1 70%;
