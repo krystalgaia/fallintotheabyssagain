@@ -28,7 +28,7 @@ const ImageForm = (props) => {
             <div className={styles.imageFormContainer}>
                 <div className={styles.imageFormFileUpload}>
                     <label className={styles.imageFormUploadButton} onClick={onUploadButtonClicked}>Choose An Image</label>
-                    <input type="file" id="abyss-image-upload" name="abyss-image-upload" onChange={onFileSelected} />
+                    <input type="file" id="abyss-image-upload" accept=".jpg, .jpeg" name="abyss-image-upload" onChange={onFileSelected} />
                 </div>
                 <div className={styles.imageFormImgPreview}>
                     <span id="abyss-saturn-emoji" role="img" aria-label="saturn" className={styles.abyssSaturnEmoji}>🌄</span>

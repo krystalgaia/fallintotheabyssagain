@@ -23,6 +23,9 @@ class Abyss extends Component {
         this.ajaxHelper = this.ajaxHelper.bind(this);
         this.createTrackList = this.createTrackList.bind(this);
         this.getTopGenres = this.getTopGenres.bind(this);
+        this.getUserId = this.getUserId.bind(this);
+        this.savePlaylist = this.savePlaylist.bind(this);
+        this.addItemsToPlaylist = this.addItemsToPlaylist.bind(this);
         this.loginHandler = this.loginHandler.bind(this);
     }
 
@@ -61,6 +64,7 @@ class Abyss extends Component {
         if (this.state.token) {
             this.ajaxHelper({
                 url: `${process.env.REACT_APP_ABYSS_TOP_GENRES_ENDPOINT}?limit=${process.env.REACT_APP_ABYSS_GENRE_LIMIT}`,
+                httpMethod: "GET",
                 onSuccess: response => {
                     if (!response) { this.setState({ loading: false, noTopGenres: true }); return; }
 
@@ -99,6 +103,7 @@ class Abyss extends Component {
                             "&max_popularity=" + process.env.REACT_APP_ABYSS_MAX_POPULARITY +
                             "&limit=" + process.env.REACT_APP_ABYSS_TRACKLIST_LIMIT +
                             "&" + audioFeatures,
+                    httpMethod: "GET",
                     onSuccess: response => {
                         if (!response) { this.setState({ loading: false, noRecommendations: true }); return; }
                         let tracks = response.tracks;
@@ -112,14 +117,15 @@ class Abyss extends Component {
                                 songTitle: track.name,
                                 artist: track.artists[0].name,
                                 album: track.album.name,
-                                externalURL: track.external_urls.spotify
+                                externalURL: track.external_urls.spotify,
+                                spotifyURI: track.uri
                             });
                         }
 
                         if (parsedTracks.length === 0) {
                             this.setState({ loading: false, noRecommendations: true });
                         } else {
-                            this.setState({ tracklist: parsedTracks, loading: false });
+                            this.setState({ tracklist: parsedTracks, loading: false, color: colorKeyword.replace("abyss", "") });
                         }
                     },
                     onError: error => {
@@ -135,6 +141,109 @@ class Abyss extends Component {
         }
     }
 
+    getUserId = callback => {
+        if (this.state.token) {
+            this.setState({ loadingPlaylistSave: true });
+            this.ajaxHelper({
+                url: process.env.REACT_APP_ABYSS_GET_USER_INFO_ENDPOINT,
+                httpMethod: "GET",
+                onSuccess: response => {
+                    if (!response) {
+                        this.setState({
+                            loadingPlaylistSave: false,
+                            cannotCreatePlaylist: true,
+                            playlistLink: ""
+                        });
+                        return;
+                    }
+
+                    this.setState({ userId: response.id });
+                    callback();
+                },
+                onError: error => {
+                    this.setState({
+                        loadingPlaylistSave: false,
+                        cannotCreatePlaylist: true,
+                        playlistLink: ""
+                    });
+                }
+            })
+        }
+    }
+
+    savePlaylist = () => {
+        if (this.state.token) {
+            const saveNewPlaylist = () => {
+                $.ajax({
+                    url: process.env.REACT_APP_ABYSS_CREATE_PLAYLIST_ENDPOINT +
+                            "/" + this.state.userId +
+                            "/playlists",
+                    type: "POST",
+                    beforeSend: xhr => { xhr.setRequestHeader("Authorization", "Bearer " + this.state.token) },
+                    data: JSON.stringify({
+                        "name": "(Abyss) Your " + this.state.color + " Playlist",
+                        "description": "Playlist from down the abyss",
+                        "public": false
+                    }),
+                    success: response => {
+                        let playlistId = response.id;
+                        let playlistURL = response.external_urls.spotify;
+                        this.addItemsToPlaylist(playlistId, playlistURL);
+                    },
+                    error: error => {
+                        this.setState({
+                            loadingPlaylistSave: false,
+                            cannotCreatePlaylist: true,
+                            playlistLink: ""
+                        });
+                    }
+                });
+            }
+
+            this.getUserId(saveNewPlaylist);
+        }
+    }
+
+    addItemsToPlaylist = (playlistId, playlistURL) => {
+        if (this.state.token && this.state.tracklist && this.state.tracklist.length > 0) {
+            let uris = [];
+            for (let i = 0; i < this.state.tracklist.length; i++) {
+                let track = this.state.tracklist[i];
+                uris.push(track.spotifyURI);
+            }
+
+            $.ajax({
+                url: process.env.REACT_APP_ABYSS_ADD_SONGS_ENDPOINT + "/" + playlistId + "/tracks",
+                type: "POST",
+                beforeSend: xhr => { xhr.setRequestHeader("Authorization", "Bearer " + this.state.token) },
+                data: JSON.stringify({ "uris": uris  }),
+                success: response => {
+                    if (!response) {
+                        this.setState({
+                            loadingPlaylistSave: false,
+                            cannotCreatePlaylist: true,
+                            playlistLink: ""
+                        });
+
+                        return;
+                    }
+
+                    this.setState({
+                        loadingPlaylistSave: false,
+                        playlistLink: playlistURL
+                    });
+                },
+                error: error => {
+                    this.setState({
+                        loadingPlaylistSave: false,
+                        cannotCreatePlaylist: true,
+                        playlistLink: ""
+                    })
+                }
+            })
+        }
+    }
+
     render() {
         return (
             <Wrapper>
@@ -142,9 +251,13 @@ class Abyss extends Component {
                     loading={this.state.loading}
                     hasToken={this.state.token}
                     noData={this.state.noRecommendations || this.state.noTopGenres}
+                    cannotCreatePlaylist={this.state.cannotCreatePlaylist}
+                    playlistLink={this.state.playlistLink}
+                    loadingPlaylistSave={this.state.loadingPlaylistSave}
                     tracklist={this.state.tracklist}
                     onLogin={this.loginHandler}
                     onCreatePlaylist={this.createTrackList}
+                    onSavePlaylist={this.savePlaylist}
                 />
             </Wrapper>
         );

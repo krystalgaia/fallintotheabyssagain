@@ -10,9 +10,21 @@ import { COLOR_BOUNDS, COLORS } from '../../../helpers/colorTable.js';
 import ColorThief from '../../../../node_modules/color-thief/js/color-thief.js';
 
 import styles from '../ControlPanel/ControlPanel.css';
+import buttonStyle from '../Button/Button.css';
 
 const ControlPanel = (props) => {
-    let filename = "No image selected";
+    if (props.playlistLink && props.playlistLink !== "") {
+        let hyperlink = document.createElement("a");
+        let linkSrc = props.playlistLink;
+
+        hyperlink.setAttribute("href", linkSrc);
+        hyperlink.setAttribute("target", "_blank");
+        hyperlink.click();
+
+        let savePlaylist = document.getElementById("abyss-save-playlist");
+        savePlaylist.setAttribute("disabled", true);
+        savePlaylist.classList = buttonStyle.btnNoClick;
+    }
 
     const createPlaylist = () => {
         let fileInput = document.getElementById("abyss-image-upload");
@@ -42,10 +54,6 @@ const ControlPanel = (props) => {
         }
     }
 
-    const savePlaylist = () => {
-        alert("Save this playlist");
-    }
-
     return(
         <Wrapper>
             <div id="abyss-main-panel" className={styles.controlPanelContainer}>
@@ -53,23 +61,16 @@ const ControlPanel = (props) => {
                     <span id="abyss-control-panel-emoji" role="img" aria-label="crescent-moon" className={styles.controlPanelHeaderEmoji}>🌙</span>
                 </div>
                 <div className={styles.controlPanelControls}>
-                    <div className={styles.controlPanelControlItem}>
-                        <ImageForm textDisplay={filename}/>
-                    </div>
+                    <div className={styles.controlPanelControlItem}><ImageForm/></div>
                     <div className={styles.controlPanelSubmitButton}>
-                        {!props.noData &&
-                            <Button loading={props.loading} onClicked={createPlaylist}>Create Playlist</Button>
-                        }
-                        {props.showSaveButton &&
-                            <Button buttonType="btnPrimary" onClicked={savePlaylist}>Save Playlist</Button>
-                        }
-                        {props.noData &&
-                            <Button buttonType="btnDisabled" noData={props.noData}>No songs found 😥</Button>
-                        }
+                        {!props.noData && <Button btnId="abyss-create-playlist" loading={props.loading} onClicked={createPlaylist}>Create Playlist</Button>}
+                        {props.showSaveButton && <Button btnId="abyss-save-playlist" loading={props.loadingPlaylistSave} onClicked={props.onSavePlaylist}>Save Playlist</Button>}
+                        {props.noData && <Button btnId="abyss-no-songs-found" buttonType="btnDisabled" noData={props.noData}>No songs found 😥</Button>}
+                        {props.cannotCreatePlaylist && <Button btnId="abyss-cannot-save-playlist" buttonType="btnDisabled" noData={props.cannotCreatePlaylist}>Cannot save playlist 😥</Button>}
                     </div>
                 </div>
                 <div className={styles.abyssCredits}>
-                    Designed & Built by Kiersten Ramos<br />
+                    Designed & Built by Kiersten Gyra Ramos<br />
                     Powered by React.js, Spotify, & Color Thief
                 </div>
             </div>

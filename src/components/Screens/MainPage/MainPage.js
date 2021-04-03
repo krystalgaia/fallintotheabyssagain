@@ -10,7 +10,14 @@ const MainPage = (props) => {
     return(
         <Wrapper>
             <div className={styles.mainPageContainer}>
-                <ControlPanel loading={props.loading} noData={props.noData} showSaveButton={!props.loading && props.tracklist && !props.noData} onCreatePlaylist={props.onCreatePlaylist} />
+                <ControlPanel
+                    loading={props.loading}
+                    noData={props.noData}
+                    showSaveButton={!props.loading && props.tracklist && !props.noData}
+                    onCreatePlaylist={props.onCreatePlaylist}
+                    onSavePlaylist={props.onSavePlaylist}
+                    cannotCreatePlaylist={props.cannotCreatePlaylist}
+                    playlistLink={props.playlistLink} />
                 <Playlist noData={props.noData} loading={props.loading} tracklist={props.tracklist}/>
             </div>
         </Wrapper>
