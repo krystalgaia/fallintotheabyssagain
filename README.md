@@ -1,6 +1,6 @@
 # 🌙 Fall Into The Abyss (again!)
 
-This is version two of my favorite project, [Abyss](https://github.com/krystalgaia/fallintotheabyss).
+This is version two of my favorite project, [Abyss](https://github.com/migratorysneakers/fallintotheabyss).
 
 ## [See it in action](https://moon-abyss.herokuapp.com)
 
