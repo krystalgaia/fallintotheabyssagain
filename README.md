@@ -2,8 +2,6 @@
 
 This is version two of my favorite project, [Abyss](https://github.com/migratorysneakers/fallintotheabyss).
 
-## [See it in action](https://abysmally.herokuapp.com)
-
 ![Landing Page](/demo/LandingPage.gif)
 
 ## What changed?
